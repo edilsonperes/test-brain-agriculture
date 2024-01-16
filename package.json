@@ -10,6 +10,7 @@
   },
   "scripts": {
     "test": "npx jest --detectOpenHandles --passWithNoTests --silent",
+    "test:verbose": "npx jest --detectOpenHandles --passWithNoTests --verbose",
     "build": "tsc --project tsconfig.build.json",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
