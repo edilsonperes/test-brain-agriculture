@@ -9,3 +9,11 @@ node_modules
 
 # compiled files
 dist
+
+# docker
+Dockerfile
+docker-compose.yaml
+
+# ignore files
+.*ignore
+README.md

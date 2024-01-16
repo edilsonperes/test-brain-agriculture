@@ -1,0 +1,5 @@
+# configuration file
+.eslintrc.cjs
+
+# compiled files
+dist

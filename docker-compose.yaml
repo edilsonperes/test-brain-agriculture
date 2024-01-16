@@ -1,0 +1,15 @@
+version: '3'
+
+services:
+  db:
+    image: postgres:16.1
+    environment:
+      - POSTGRES_PASSWORD=password
+
+  api:
+    restart: always
+    build: .
+    volumes:
+      - ./src:/home/node/app/src
+    ports:
+      - 8000:8000
