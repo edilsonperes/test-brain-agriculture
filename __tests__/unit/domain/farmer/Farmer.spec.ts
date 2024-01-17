@@ -75,6 +75,28 @@ describe('Farmer entity', () => {
     });
   });
 
+  describe('should not create farmer with invalid farm', () => {
+    const testCases: [string][] = [
+      ['a'],
+      ['12345'],
+      ['1-2-3-4-5'],
+      // id containing a not hex character
+      ['k3aa0f8c-51b5-4ecd-a5c4-cf46dd465bf8'],
+    ];
+
+    it.each(testCases)('given %p', (farm) => {
+      const fakeName = 'John Doe';
+      const fakeCpf = '111.444.777-35';
+      const farmerOrError = Farmer.create({
+        name: fakeName,
+        cpf: fakeCpf,
+        farm,
+      });
+
+      expect(farmerOrError.value).not.toBeInstanceOf(Farmer);
+    });
+  });
+
   describe('should create farmer with valid properties', () => {
     const testCases: [string | undefined, string | undefined, string][] = [
       ['111.444.777-35', undefined, '11144477735'],
@@ -83,7 +105,10 @@ describe('Farmer entity', () => {
 
     it.each(testCases)('given CPF: %p | CNPJ: %p', (cpf, cnpj, expected) => {
       const fakeName = 'John Doe';
-      const fakeData = cpf ? { name: fakeName, cpf } : { name: fakeName, cnpj };
+      const fakeFarmId = 'f40b6e6d-4d4e-4611-9f0e-117e33aa7d2c';
+      const fakeData = cpf
+        ? { name: fakeName, cpf, farm: fakeFarmId }
+        : { name: fakeName, cnpj, farm: fakeFarmId };
       const farmerOrError = Farmer.create(fakeData);
       const farmer = farmerOrError.value as Farmer;
 
@@ -91,6 +116,7 @@ describe('Farmer entity', () => {
       expect(farmer.id).toBeDefined();
       expect(farmer.name).toEqual(fakeName);
       expect(farmer.CPF || farmer.CNPJ).toEqual(expected);
+      expect(farmer.farm).toEqual(fakeFarmId);
     });
   });
 
@@ -101,5 +127,42 @@ describe('Farmer entity', () => {
     >[0]);
 
     expect(farmerOrError.value).not.toBeInstanceOf(Farmer);
+  });
+
+  it("sould allow to update farmer's name", () => {
+    const fakeName = 'John Doe';
+    const fakeCpf = '111.444.777-35';
+    const farmerOrError = Farmer.create({ name: fakeName, cpf: fakeCpf });
+    const farmer = farmerOrError.value as Farmer;
+
+    const newName = 'John Roe';
+    const updatedFarmerOrError = farmer.updateName(newName);
+    const updatedFarmer = updatedFarmerOrError.value as Farmer;
+
+    expect(updatedFarmer.name).toEqual(newName);
+  });
+
+  describe('sould allow to update farm', () => {
+    const testCases: [string | undefined][] = [
+      [undefined],
+      ['f40b6e6d-4d4e-4611-9f0e-117e33aa7d2c'],
+    ];
+
+    it.each(testCases)('given initial farm id %p', (farm) => {
+      const fakeName = 'John Doe';
+      const fakeCpf = '111.444.777-35';
+      const farmerOrError = Farmer.create({
+        name: fakeName,
+        cpf: fakeCpf,
+        ...(farm && { farm }),
+      });
+      const farmer = farmerOrError.value as Farmer;
+
+      const newFarm = 'a007e99a-6d61-440d-bd2d-8021f5e8cdcc';
+      const updatedFarmerOrError = farmer.updateFarm(newFarm);
+      const updatedFarmer = updatedFarmerOrError.value as Farmer;
+
+      expect(updatedFarmer.farm).toEqual(newFarm);
+    });
   });
 });
