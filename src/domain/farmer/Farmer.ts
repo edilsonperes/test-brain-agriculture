@@ -11,14 +11,14 @@ interface BaseFarmer {
   farm?: string;
 }
 
-interface FarmerWithCPF extends BaseFarmer {
-  cpf: string;
-  cnpj?: undefined;
+export interface FarmerWithCPF extends BaseFarmer {
+  CPF: string;
+  CNPJ?: undefined;
 }
 
-interface FarmerWithCNPJ extends BaseFarmer {
-  cpf?: undefined;
-  cnpj: string;
+export interface FarmerWithCNPJ extends BaseFarmer {
+  CPF?: undefined;
+  CNPJ: string;
 }
 
 export class Farmer {
@@ -32,8 +32,8 @@ export class Farmer {
   static create({
     id,
     name,
-    cpf,
-    cnpj,
+    CPF: cpf,
+    CNPJ: cnpj,
     farm,
   }:
     | WithPartial<FarmerWithCPF, 'id'>
@@ -96,6 +96,16 @@ export class Farmer {
 
   get farm(): string | null {
     return this._farm ? this._farm.value : null;
+  }
+
+  get data() {
+    return {
+      id: this.id,
+      name: this.name,
+      CPF: this.CPF,
+      CNPJ: this.CNPJ,
+      farm: this.farm,
+    };
   }
 
   updateName(name: string): Either<Error, Farmer> {

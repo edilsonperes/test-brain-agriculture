@@ -1,13 +1,29 @@
+version: "3.8"
+
 services:
   db:
     image: postgres:16.1
     environment:
       - POSTGRES_PASSWORD=password
+    ports:
+      - 5432:5432
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
 
   api:
-    restart: always
     build: .
     volumes:
       - ./src:/home/node/app/src
     ports:
       - 8000:8000
+    environment:
+      - POSTGRES_DB=test
+      - POSTGRES_USERNAME=postgres
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_HOST=db
+    depends_on:
+      db:
+        condition: service_healthy

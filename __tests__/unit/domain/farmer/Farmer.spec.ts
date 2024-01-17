@@ -13,7 +13,7 @@ describe('Farmer entity', () => {
     it.each(testCases)('given %p', (id) => {
       const fakeName = 'John Doe';
       const fakeCpf = '111.444.777-35';
-      const farmerOrError = Farmer.create({ id, name: fakeName, cpf: fakeCpf });
+      const farmerOrError = Farmer.create({ id, name: fakeName, CPF: fakeCpf });
 
       expect(farmerOrError.value).not.toBeInstanceOf(Farmer);
     });
@@ -31,7 +31,7 @@ describe('Farmer entity', () => {
 
     it.each(testCases)('given %p', (name) => {
       const fakeCpf = '111.444.777-35';
-      const farmerOrError = Farmer.create({ name, cpf: fakeCpf });
+      const farmerOrError = Farmer.create({ name, CPF: fakeCpf });
 
       expect(farmerOrError.value).not.toBeInstanceOf(Farmer);
     });
@@ -48,9 +48,9 @@ describe('Farmer entity', () => {
       ['111.444.777-30'],
     ];
 
-    it.each(testCases)('given %p', (cpf) => {
+    it.each(testCases)('given %p', (CPF) => {
       const fakeName = 'John Doe';
-      const farmerOrError = Farmer.create({ name: fakeName, cpf });
+      const farmerOrError = Farmer.create({ name: fakeName, CPF });
 
       expect(farmerOrError.value).not.toBeInstanceOf(Farmer);
     });
@@ -67,9 +67,9 @@ describe('Farmer entity', () => {
       ['11.444.777/0001-60'],
     ];
 
-    it.each(testCases)('given %p', (cnpj) => {
+    it.each(testCases)('given %p', (CNPJ) => {
       const fakeName = 'John Doe';
-      const farmerOrError = Farmer.create({ name: fakeName, cnpj });
+      const farmerOrError = Farmer.create({ name: fakeName, CNPJ });
 
       expect(farmerOrError.value).not.toBeInstanceOf(Farmer);
     });
@@ -89,7 +89,7 @@ describe('Farmer entity', () => {
       const fakeCpf = '111.444.777-35';
       const farmerOrError = Farmer.create({
         name: fakeName,
-        cpf: fakeCpf,
+        CPF: fakeCpf,
         farm,
       });
 
@@ -103,12 +103,12 @@ describe('Farmer entity', () => {
       [undefined, '11.444.777/0001-61', '11444777000161'],
     ];
 
-    it.each(testCases)('given CPF: %p | CNPJ: %p', (cpf, cnpj, expected) => {
+    it.each(testCases)('given CPF: %p | CNPJ: %p', (CPF, CNPJ, expected) => {
       const fakeName = 'John Doe';
       const fakeFarmId = 'f40b6e6d-4d4e-4611-9f0e-117e33aa7d2c';
-      const fakeData = cpf
-        ? { name: fakeName, cpf, farm: fakeFarmId }
-        : { name: fakeName, cnpj, farm: fakeFarmId };
+      const fakeData = CPF
+        ? { name: fakeName, CPF, farm: fakeFarmId }
+        : { name: fakeName, CNPJ, farm: fakeFarmId };
       const farmerOrError = Farmer.create(fakeData);
       const farmer = farmerOrError.value as Farmer;
 
@@ -132,7 +132,7 @@ describe('Farmer entity', () => {
   it("sould allow to update farmer's name", () => {
     const fakeName = 'John Doe';
     const fakeCpf = '111.444.777-35';
-    const farmerOrError = Farmer.create({ name: fakeName, cpf: fakeCpf });
+    const farmerOrError = Farmer.create({ name: fakeName, CPF: fakeCpf });
     const farmer = farmerOrError.value as Farmer;
 
     const newName = 'John Roe';
@@ -153,7 +153,7 @@ describe('Farmer entity', () => {
       const fakeCpf = '111.444.777-35';
       const farmerOrError = Farmer.create({
         name: fakeName,
-        cpf: fakeCpf,
+        CPF: fakeCpf,
         ...(farm && { farm }),
       });
       const farmer = farmerOrError.value as Farmer;
