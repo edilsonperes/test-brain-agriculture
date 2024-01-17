@@ -1,9 +1,10 @@
 import { Either, left, right } from '../../shared/Either.js';
+import { WithPartial } from '../../shared/WithPartial.js';
 import { ID } from '../ID.js';
 import { Name } from '../Name.js';
 
-interface FarmInput {
-  id?: string;
+interface FarmData {
+  id: string;
   name: string;
   state: string;
   city: string;
@@ -47,7 +48,12 @@ export class Farm {
     private readonly _city: string,
   ) {}
 
-  static create({ id, name, state, city }: FarmInput): Either<Error, Farm> {
+  static create({
+    id,
+    name,
+    state,
+    city,
+  }: WithPartial<FarmData, 'id'>): Either<Error, Farm> {
     const idOrError = ID.create(id);
     const nameOrError = Name.create(name);
 
