@@ -1,7 +1,7 @@
 import { Either, left, right } from '../../shared/Either.js';
 
 export class CNPJ {
-  private _value: string;
+  private readonly _value: string;
 
   private constructor(cnpj: string) {
     this._value = cnpj;

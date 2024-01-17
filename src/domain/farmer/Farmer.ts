@@ -23,9 +23,9 @@ interface FarmerWithCNPJ extends BaseFarmer {
 
 export class Farmer {
   private constructor(
-    private _id: ID,
+    private readonly _id: ID,
     private _name: Name,
-    private _idDocument: CPF | CNPJ,
+    private readonly _idDocument: CPF | CNPJ,
   ) {}
 
   static create({

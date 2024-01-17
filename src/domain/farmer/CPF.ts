@@ -1,7 +1,7 @@
 import { Either, left, right } from '../../shared/Either.js';
 
 export class CPF {
-  private _value: string;
+  private readonly _value: string;
 
   private constructor(cpf: string) {
     this._value = cpf;

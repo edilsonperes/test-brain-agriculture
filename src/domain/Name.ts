@@ -1,7 +1,7 @@
 import { Either, left, right } from '../shared/Either.js';
 
 export class Name {
-  private constructor(readonly value: string) {}
+  private constructor(private _value: string) {}
 
   static create(name: string): Either<Error, Name> {
     const invalidCharactersRegex = /[0-9+=!@#$%&*<>\\|/'"{}[\]]/;
@@ -18,5 +18,9 @@ export class Name {
       );
     }
     return right(new Name(name));
+  }
+
+  get value(): string {
+    return this._value;
   }
 }

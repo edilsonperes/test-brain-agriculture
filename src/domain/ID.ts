@@ -2,10 +2,10 @@ import { UUID, randomUUID } from 'node:crypto';
 import { Either, left, right } from '../shared/Either.js';
 
 export class ID {
-  private _id: UUID;
+  private readonly _value: UUID;
 
   private constructor(id: UUID) {
-    this._id = id;
+    this._value = id;
   }
 
   static create(id?: string): Either<Error, ID> {
@@ -25,6 +25,6 @@ export class ID {
   }
 
   get value(): UUID {
-    return this._id;
+    return this._value;
   }
 }
