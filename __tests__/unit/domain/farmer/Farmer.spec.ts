@@ -108,7 +108,7 @@ describe('Farmer entity', () => {
       const fakeFarmId = 'f40b6e6d-4d4e-4611-9f0e-117e33aa7d2c';
       const fakeData = CPF
         ? { name: fakeName, CPF, farm: fakeFarmId }
-        : { name: fakeName, CNPJ, farm: fakeFarmId };
+        : { name: fakeName, CNPJ: CNPJ!, farm: fakeFarmId };
       const farmerOrError = Farmer.create(fakeData);
       const farmer = farmerOrError.value as Farmer;
 

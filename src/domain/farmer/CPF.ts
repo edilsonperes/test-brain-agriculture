@@ -10,7 +10,7 @@ export class CPF {
   static create(cpf: string): Either<Error, CPF> {
     const formattedCpf = cpf.trim().replaceAll(/\.|-/g, '');
     if (!CPF._validate(formattedCpf)) {
-      return left(new Error(`Invalid CPF. Received ${cpf}`));
+      return left(new Error(`Invalid CPF. Received: ${cpf}`));
     }
     return right(new CPF(formattedCpf));
   }

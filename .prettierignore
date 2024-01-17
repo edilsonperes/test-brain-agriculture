@@ -6,6 +6,7 @@ node_modules
 
 # environment variables file
 .env
+.env.example
 
 # compiled files
 dist
@@ -17,3 +18,4 @@ docker-compose.yaml
 # ignore files
 .*ignore
 README.md
+package-lock.json

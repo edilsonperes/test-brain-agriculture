@@ -13,7 +13,7 @@ export class Name {
     if (name.length < 3 || name.length > 50) {
       return left(
         new Error(
-          `Name too short or too long (min length: 3, max length: 50). \nReceived: ${name} \nLength: ${name.length}`,
+          `Name too short or too long (min length: 3, max length: 50). Received: ${name} | Length: ${name.length}`,
         ),
       );
     }

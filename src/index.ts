@@ -1,11 +1,18 @@
-import express from 'express';
+import 'dotenv/config';
+import { db } from './infra/postgres/db.js';
+import server from './infra/express/app.js';
 
-const app = express();
+db.sync()
+  .then(() => {
+    const { SERVER_PORT } = process.env;
 
-app.get('/', (_req, res) => {
-  res.send('Hello world');
-});
-
-app.listen(8000, () => {
-  console.log(`App listening on port ${8000}`);
-});
+    if (!SERVER_PORT) {
+      throw new Error("Missing environment variavle. 'SERVER_PORT'");
+    }
+    server.listen(SERVER_PORT, () => {
+      console.log(`App listening on port ${SERVER_PORT}`);
+    });
+  })
+  .catch((error) => {
+    throw error;
+  });
