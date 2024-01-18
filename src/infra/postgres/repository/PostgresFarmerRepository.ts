@@ -21,16 +21,25 @@ export class PostgresFarmerRepository implements FarmerRepository {
     return ID.create(farmerDB.dataValues.id).value as ID;
   }
 
-  async findByPk(pk: string): Promise<Farmer[]> {
-    const farmerDB = await FarmerModel.findByPk(pk);
+  async findById(id: string): Promise<Farmer | null> {
+    const farmerDB = await FarmerModel.findByPk(id);
     if (!farmerDB) {
-      return [];
+      return null;
     }
-    return [this.createFarmerFromDBData(farmerDB)];
+    return this.createFarmerFromDBData(farmerDB);
   }
 
   async list(): Promise<Farmer[]> {
     const farmersDB = await FarmerModel.findAll();
     return farmersDB.map((farmerDB) => this.createFarmerFromDBData(farmerDB));
+  }
+
+  async delete(id: string): Promise<Farmer | null> {
+    const farmerDB = await FarmerModel.findByPk(id);
+    if (!farmerDB) {
+      return null;
+    }
+    await farmerDB.destroy();
+    return this.createFarmerFromDBData(farmerDB);
   }
 }

@@ -21,6 +21,14 @@ export interface FarmerWithCNPJ extends BaseFarmer {
   CNPJ: string;
 }
 
+export interface FarmerData {
+  id: string;
+  name: string;
+  CPF: string | null;
+  CNPJ: string | null;
+  farm: string | null;
+}
+
 export class Farmer {
   private constructor(
     private readonly _id: ID,
@@ -98,7 +106,7 @@ export class Farmer {
     return this._farm ? this._farm.value : null;
   }
 
-  get data() {
+  get data(): FarmerData {
     return {
       id: this.id,
       name: this.name,

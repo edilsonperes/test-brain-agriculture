@@ -4,21 +4,18 @@ import { Either, left, right } from '../../../shared/Either.js';
 import { FarmerRepository } from '../../repository/FarmerRepository.js';
 import { UseCase } from '../UseCase.js';
 
-export class ListFarmers implements UseCase {
+export class DeleteFarmer implements UseCase {
   constructor(private farmerRepository: FarmerRepository) {}
 
-  async exec(id?: string): Promise<Either<Error, FarmerData[]>> {
-    if (!id) {
-      const farmers = await this.farmerRepository.list();
-      return right(farmers.map((farmer) => farmer.data));
-    }
+  async exec(id: string): Promise<Either<Error, FarmerData | null>> {
     const idOrError = ID.create(id);
+
     if (idOrError.isLeft()) {
       const error = idOrError.value;
       return left(error);
     }
     const validId = idOrError.value;
-    const farmer = await this.farmerRepository.findById(validId.value);
-    return right(farmer ? [farmer.data] : []);
+    const farmer = await this.farmerRepository.delete(validId.value);
+    return right(farmer && farmer.data);
   }
 }

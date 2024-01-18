@@ -20,7 +20,7 @@ export class ID {
 
   static _validate(id: string): id is UUID {
     const validator =
-      /[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{8}/;
+      /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/;
     return validator.test(id);
   }
 
