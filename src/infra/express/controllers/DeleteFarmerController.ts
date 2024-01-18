@@ -20,6 +20,10 @@ export class DeleteFarmerController implements Controller {
         return;
       }
       const farmerData = farmerDataOrError.value;
+      if (!farmerData) {
+        response.sendStatus(404);
+        return;
+      }
       response.status(200).json(farmerData);
     } catch (error: unknown) {
       console.error(error);
