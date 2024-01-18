@@ -12,3 +12,8 @@ Technical assessment for senior backend position.
 ```docker compose up -d```
 
 4. The API will run on `localhost:8000`
+
+## Testing the API
+
+Use the file `insomnia.json` on `docs` folder for greater ease of testing. 
+Simply [import the file](https://docs.insomnia.rest/insomnia/import-export-data#import-data) to your insomnia application.
