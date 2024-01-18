@@ -16,9 +16,12 @@ type FarmerCreationAttributes = WithPartial<
   'CNPJ' | 'CPF' | 'farm' | 'id'
 >;
 
-export const FarmerModel = db.define<
-  Model<FarmerAttributes, FarmerCreationAttributes>
->('farmer', {
+export type FarmerModelDefinition = Model<
+  FarmerAttributes,
+  FarmerCreationAttributes
+>;
+
+export const FarmerModel = db.define<FarmerModelDefinition>('farmer', {
   id: {
     type: DataTypes.STRING,
     primaryKey: true,
