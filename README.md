@@ -8,10 +8,14 @@ Technical assessment for senior backend position.
 
 2. Open a terminal on the root folder
 
-3. Run the following command
+3. Create a `.env` file on the root folder according to `.env.example` file
+
+> To start the database with mock data, use the default POSTGRES variables from `.env.example` file
+
+4. Run the following command
 ```docker compose up -d```
 
-4. The API will run on `localhost:8000`
+5. The API will run on `localhost:${PORT}`
 
 ## Testing the API
 
