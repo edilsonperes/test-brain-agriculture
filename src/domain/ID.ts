@@ -9,7 +9,7 @@ export class ID {
   }
 
   static create(id?: string): Either<Error, ID> {
-    if (!id) {
+    if (id === undefined) {
       return right(new ID(randomUUID()));
     }
     if (!ID._validate(id)) {

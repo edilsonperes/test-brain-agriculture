@@ -127,7 +127,7 @@ export class Farmer {
     return right(this);
   }
 
-  updateFarm(farm: string): Either<Error, Farmer> {
+  assignFarm(farm: string): Either<Error, Farmer> {
     const farmIdOrError = ID.create(farm);
     if (farmIdOrError.isLeft()) {
       const error = farmIdOrError.value;
@@ -135,6 +135,11 @@ export class Farmer {
     }
     const validFarmId = farmIdOrError.value;
     this._farm = validFarmId;
+    return right(this);
+  }
+
+  removeFarm(): Either<never, Farmer> {
+    this._farm = undefined;
     return right(this);
   }
 }

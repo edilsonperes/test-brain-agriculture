@@ -3,6 +3,7 @@ import { Farmer } from '../../../../src/domain/farmer/Farmer.js';
 describe('Farmer entity', () => {
   describe('should not create farmer with invalid id', () => {
     const testCases: [string][] = [
+      [''],
       ['a'],
       ['12345'],
       ['1-2-3-4-5'],
@@ -142,6 +143,19 @@ describe('Farmer entity', () => {
     expect(updatedFarmer.name).toEqual(newName);
   });
 
+  it('sould allow to assign farm', () => {
+    const fakeName = 'John Doe';
+    const fakeCpf = '111.444.777-35';
+    const farmerOrError = Farmer.create({ name: fakeName, CPF: fakeCpf });
+    const farmer = farmerOrError.value as Farmer;
+
+    const fakeFarm = 'a007e99a-6d61-440d-bd2d-8021f5e8cdcc';
+    const updatedFarmerOrError = farmer.assignFarm(fakeFarm);
+    const updatedFarmer = updatedFarmerOrError.value as Farmer;
+
+    expect(updatedFarmer.farm).toEqual(fakeFarm);
+  });
+
   describe('sould allow to update farm', () => {
     const testCases: [string | undefined][] = [
       [undefined],
@@ -159,10 +173,26 @@ describe('Farmer entity', () => {
       const farmer = farmerOrError.value as Farmer;
 
       const newFarm = 'a007e99a-6d61-440d-bd2d-8021f5e8cdcc';
-      const updatedFarmerOrError = farmer.updateFarm(newFarm);
+      const updatedFarmerOrError = farmer.assignFarm(newFarm);
       const updatedFarmer = updatedFarmerOrError.value as Farmer;
 
       expect(updatedFarmer.farm).toEqual(newFarm);
     });
+  });
+
+  it('sould allow to remove farm', () => {
+    const fakeName = 'John Doe';
+    const fakeCpf = '111.444.777-35';
+    const fakeFarm = 'a007e99a-6d61-440d-bd2d-8021f5e8cdcc';
+    const farmerOrError = Farmer.create({
+      name: fakeName,
+      CPF: fakeCpf,
+      farm: fakeFarm,
+    });
+    const farmer = farmerOrError.value as Farmer;
+
+    const updatedFarmer = farmer.removeFarm().value;
+
+    expect(updatedFarmer.farm).toEqual(null);
   });
 });
