@@ -1,4 +1,7 @@
-import { FarmerRepository } from '../../../application/repository/FarmerRepository.js';
+import {
+  FarmerRepository,
+  FarmerUpdate,
+} from '../../../application/repository/FarmerRepository.js';
 import { Farmer } from '../../../domain/farmer/Farmer.js';
 import { ID } from '../../../domain/ID.js';
 import { FarmerModelDefinition, FarmerModel } from '../models/FarmerModel.js';
@@ -41,5 +44,10 @@ export class PostgresFarmerRepository implements FarmerRepository {
     }
     await farmerDB.destroy();
     return this.createFarmerFromDBData(farmerDB);
+  }
+
+  async update(id: string, update: FarmerUpdate): Promise<boolean> {
+    const updateResult = await FarmerModel.update(update, { where: { id } });
+    return !!updateResult[0];
   }
 }

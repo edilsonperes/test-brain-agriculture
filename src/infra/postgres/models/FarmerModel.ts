@@ -34,13 +34,16 @@ export const FarmerModel = db.define<FarmerModelDefinition>('farmer', {
   farm: {
     type: DataTypes.STRING,
     allowNull: true,
+    unique: true,
   },
   CPF: {
     type: DataTypes.STRING,
     allowNull: true,
+    unique: true,
   },
   CNPJ: {
     type: DataTypes.STRING,
     allowNull: true,
+    unique: true,
   },
 });
