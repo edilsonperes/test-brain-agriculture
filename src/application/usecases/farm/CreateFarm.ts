@@ -4,7 +4,7 @@ import { WithPartial } from '../../../shared/WithPartial.js';
 import { FarmRepository } from '../../repository/FarmRepository.js';
 import { UseCase } from '../UseCase.js';
 
-type FarmProps =
+export type FarmProps =
   | WithPartial<FarmData, 'id' | 'crops'>
   | WithPartial<FarmData, 'id' | 'crops' | 'arableArea'>
   | WithPartial<FarmData, 'id' | 'crops' | 'vegetationArea'>;

@@ -29,7 +29,7 @@ const handler = (router: Router) => {
   );
 };
 
-export const routerHander: RouterHander = {
+export const farmerRouterHander: RouterHander = {
   route: '/farmer',
   handler,
 };
