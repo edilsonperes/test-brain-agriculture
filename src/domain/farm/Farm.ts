@@ -4,7 +4,7 @@ import { ID } from '../ID.js';
 import { Name } from '../Name.js';
 import { Crop } from './Crop.js';
 
-interface FarmData {
+export interface FarmData {
   id: string;
   name: string;
   state: string;
@@ -66,7 +66,7 @@ export class Farm {
     vegetationArea,
     totalArea,
     crops,
-  }: WithPartial<FarmData, 'id'>): Either<Error, Farm> {
+  }: WithPartial<FarmData, 'id' | 'crops'>): Either<Error, Farm> {
     const idOrError = ID.create(id);
     const nameOrError = Name.create(name);
     if (idOrError.isLeft()) {
@@ -84,7 +84,17 @@ export class Farm {
     }
 
     if (arableArea < 0 || vegetationArea < 0 || totalArea < 0) {
-      return left(new Error('All areas must be a positive number.'));
+      return left(new Error('Area values cannot be negative numbers.'));
+    }
+    if (!(totalArea > 0)) {
+      return left(new Error('Farm area cannot be null.'));
+    }
+    if (!(arableArea > 0) || !(vegetationArea > 0)) {
+      return left(
+        new Error(
+          'Either arable area or vegetation area must be greater than 0.',
+        ),
+      );
     }
     if (arableArea + vegetationArea > totalArea) {
       return left(
@@ -147,6 +157,19 @@ export class Farm {
 
   get crops(): string[] {
     return this._crops.map((crop) => crop.value);
+  }
+
+  get data(): FarmData {
+    return {
+      id: this.id,
+      name: this.name,
+      state: this.state,
+      city: this.city,
+      arableArea: this.arableArea,
+      vegetationArea: this.vegetationArea,
+      totalArea: this.totalArea,
+      crops: this.crops,
+    };
   }
 
   updateName(name: string): Either<Error, Farm> {
