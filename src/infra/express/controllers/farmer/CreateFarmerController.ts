@@ -10,24 +10,24 @@ export class CreateFarmerController implements Controller {
   constructor(private farmerRepository: FarmerRepository) {}
 
   handle = async (request: Request, response: Response): Promise<void> => {
-    const { id, name, CPF, CNPJ } = request.body as Partial<FarmerProps>;
-
-    if (!name) {
-      response.status(400).send('Missing required parameter: "name"');
-      return;
-    }
-
-    if (!CPF && !CNPJ) {
-      response
-        .status(400)
-        .send('Farmer needs to be created with either CPF or CNPJ');
-      return;
-    }
-
-    const createFarmer = new CreateFarmer(this.farmerRepository);
-    const farmerData = CPF ? { id, name, CPF } : { id, name, CNPJ: CNPJ! };
-
     try {
+      const { id, name, CPF, CNPJ } = request.body as Partial<FarmerProps>;
+
+      if (!name) {
+        response.status(400).send('Missing required parameter: "name"');
+        return;
+      }
+
+      if (!CPF && !CNPJ) {
+        response
+          .status(400)
+          .send('Farmer needs to be created with either CPF or CNPJ');
+        return;
+      }
+
+      const createFarmer = new CreateFarmer(this.farmerRepository);
+      const farmerData = CPF ? { id, name, CPF } : { id, name, CNPJ: CNPJ! };
+
       const farmerIdOrError = await createFarmer.exec(farmerData);
 
       if (farmerIdOrError.isLeft()) {
