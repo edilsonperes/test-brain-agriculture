@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
-import { FarmerRepository } from '../../../application/repository/FarmerRepository.js';
-import { Controller } from './Controller.js';
-import { ListFarmers } from '../../../application/usecases/farmer/ListFarmers.js';
+import { FarmerRepository } from '../../../../application/repository/FarmerRepository.js';
+import { Controller } from '../Controller.js';
+import { ListFarmers } from '../../../../application/usecases/farmer/ListFarmers.js';
 
 export class ListFarmersController implements Controller {
   constructor(private farmerRepository: FarmerRepository) {}

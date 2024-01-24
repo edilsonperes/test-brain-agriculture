@@ -1,10 +1,10 @@
 import { Request, Response } from 'express';
-import { FarmerRepository } from '../../../application/repository/FarmerRepository.js';
+import { FarmerRepository } from '../../../../application/repository/FarmerRepository.js';
 import {
   CreateFarmer,
   FarmerProps,
-} from '../../../application/usecases/farmer/CreateFarmer.js';
-import { Controller } from './Controller.js';
+} from '../../../../application/usecases/farmer/CreateFarmer.js';
+import { Controller } from '../Controller.js';
 
 export class CreateFarmerController implements Controller {
   constructor(private farmerRepository: FarmerRepository) {}

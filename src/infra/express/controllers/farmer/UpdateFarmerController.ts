@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
-import { FarmerRepository } from '../../../application/repository/FarmerRepository.js';
-import { Controller } from './Controller.js';
-import { UpdateFarmer } from '../../../application/usecases/farmer/UpdateFarmer.js';
+import { FarmerRepository } from '../../../../application/repository/FarmerRepository.js';
+import { Controller } from '../Controller.js';
+import { UpdateFarmer } from '../../../../application/usecases/farmer/UpdateFarmer.js';
 
 type UpdateFarmerRequestBody = {
   name?: string;
