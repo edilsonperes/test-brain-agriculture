@@ -2,9 +2,13 @@ import { Request, Response } from 'express';
 import { FarmerRepository } from '../../../../application/repository/FarmerRepository.js';
 import { Controller } from '../Controller.js';
 import { ListFarmers } from '../../../../application/usecases/farmer/ListFarmers.js';
+import { FarmRepository } from '../../../../application/repository/FarmRepository.js';
 
 export class ListFarmersController implements Controller {
-  constructor(private farmerRepository: FarmerRepository) {}
+  constructor(
+    private farmerRepository: FarmerRepository,
+    private farmRepository: FarmRepository,
+  ) {}
 
   handle = async (
     request: Request<{ id?: string }>,
@@ -12,7 +16,10 @@ export class ListFarmersController implements Controller {
   ): Promise<void> => {
     try {
       const { id } = request.params;
-      const listFarmers = new ListFarmers(this.farmerRepository);
+      const listFarmers = new ListFarmers(
+        this.farmerRepository,
+        this.farmRepository,
+      );
       const farmerDataOrError = await listFarmers.exec(id);
       if (farmerDataOrError.isLeft()) {
         const error = farmerDataOrError.value;

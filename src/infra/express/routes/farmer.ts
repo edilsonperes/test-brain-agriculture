@@ -14,7 +14,10 @@ const handler = (router: Router) => {
   const createFarmerController = new CreateFarmerController(farmerRepository);
   router.post('/', createFarmerController.handle as RequestHandler);
 
-  const listFarmersController = new ListFarmersController(farmerRepository);
+  const listFarmersController = new ListFarmersController(
+    farmerRepository,
+    farmRepository,
+  );
   router.get('/', listFarmersController.handle as RequestHandler);
   router.get('/:id', listFarmersController.handle as RequestHandler);
 

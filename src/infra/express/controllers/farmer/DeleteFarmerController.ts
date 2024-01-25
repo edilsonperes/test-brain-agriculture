@@ -18,7 +18,10 @@ export class DeleteFarmerController implements Controller {
   ): Promise<void> => {
     try {
       const { id } = request.params;
-      const listFarmers = new ListFarmers(this.farmerRepository);
+      const listFarmers = new ListFarmers(
+        this.farmerRepository,
+        this.farmRepository,
+      );
       const farmerDataOrError = await listFarmers.exec(id);
       if (farmerDataOrError.isLeft()) {
         const error = farmerDataOrError.value;
@@ -34,7 +37,7 @@ export class DeleteFarmerController implements Controller {
       const deleteFarm = new DeleteFarm(this.farmRepository);
       await Promise.all([
         deleteFarmer.exec(id),
-        ...(farmerData.farm ? [deleteFarm.exec(farmerData.farm)] : []),
+        ...(farmerData.farm ? [deleteFarm.exec(farmerData.farm.id)] : []),
       ]);
       response.status(200).json(farmerData);
     } catch (error: unknown) {
