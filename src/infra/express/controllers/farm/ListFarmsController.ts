@@ -21,11 +21,9 @@ export class ListFarmsController implements Controller {
       }
       const farmData = farmDataOrError.value;
       response.status(200).json(farmData);
-      return;
     } catch (error: unknown) {
       console.error(error);
       response.sendStatus(500);
-      return;
     }
   };
 }

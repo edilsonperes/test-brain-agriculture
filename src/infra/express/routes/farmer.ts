@@ -5,9 +5,11 @@ import { CreateFarmerController } from '../controllers/farmer/CreateFarmerContro
 import { ListFarmersController } from '../controllers/farmer/ListFarmersController.js';
 import { DeleteFarmerController } from '../controllers/farmer/DeleteFarmerController.js';
 import { UpdateFarmerController } from '../controllers/farmer/UpdateFarmerController.js';
+import { PostgresFarmRepository } from '../../postgres/repository/PostgresFarmRepository.js';
 
 const handler = (router: Router) => {
   const farmerRepository = new PostgresFarmerRepository();
+  const farmRepository = new PostgresFarmRepository();
 
   const createFarmerController = new CreateFarmerController(farmerRepository);
   router.post('/', createFarmerController.handle as RequestHandler);
@@ -16,7 +18,10 @@ const handler = (router: Router) => {
   router.get('/', listFarmersController.handle as RequestHandler);
   router.get('/:id', listFarmersController.handle as RequestHandler);
 
-  const deleteFarmerController = new DeleteFarmerController(farmerRepository);
+  const deleteFarmerController = new DeleteFarmerController(
+    farmerRepository,
+    farmRepository,
+  );
   router.delete(
     '/:id',
     deleteFarmerController.handle as RequestHandler<{ id: string }>,

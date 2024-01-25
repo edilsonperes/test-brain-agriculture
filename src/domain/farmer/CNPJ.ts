@@ -10,7 +10,7 @@ export class CNPJ {
   static create(cnpj: string): Either<Error, CNPJ> {
     const formattedCnpj = cnpj.trim().replaceAll(/\.|-|\//g, '');
     if (!CNPJ._validate(formattedCnpj)) {
-      return left(new Error(`Invalid CNPJ. Received: ${cnpj}.`));
+      return left(new Error(`Invalid CNPJ. Received: '${cnpj}'.`));
     }
     return right(new CNPJ(formattedCnpj));
   }

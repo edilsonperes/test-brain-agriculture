@@ -51,9 +51,9 @@ export class Farm {
     private _name: Name,
     private readonly _state: string,
     private readonly _city: string,
-    private readonly _totalArea: number,
     private readonly _arableArea: number,
     private readonly _vegetationArea: number,
+    private readonly _totalArea: number,
     private _crops: Crop[],
   ) {}
 
@@ -78,9 +78,15 @@ export class Farm {
       return left(error);
     }
 
-    const formattedState = state.toUpperCase();
-    if (state.length !== 2 || !stateList.includes(formattedState)) {
-      return left(new Error(`Invalid state. Received: ${state}`));
+    if (
+      !state ||
+      state.length !== 2 ||
+      !stateList.includes(state.toUpperCase())
+    ) {
+      return left(new Error(`Invalid state. Received: '${state}'`));
+    }
+    if (!city) {
+      return left(new Error(`Invalid city. Received: '${city}'`));
     }
 
     if (arableArea < 0 || vegetationArea < 0 || totalArea < 0) {
@@ -89,7 +95,7 @@ export class Farm {
     if (!(totalArea > 0)) {
       return left(new Error('Farm area cannot be null.'));
     }
-    if (!(arableArea > 0) || !(vegetationArea > 0)) {
+    if (!(arableArea > 0) && !(vegetationArea > 0)) {
       return left(
         new Error(
           'Either arable area or vegetation area must be greater than 0.',
@@ -117,11 +123,11 @@ export class Farm {
       new Farm(
         validId,
         validiName,
-        formattedState,
+        state.toUpperCase(),
         city,
-        arableArea,
-        vegetationArea,
-        totalArea,
+        Number(arableArea.toFixed(2)),
+        Number(vegetationArea.toFixed(2)),
+        Number(totalArea.toFixed(2)),
         validCrops,
       ),
     );
@@ -196,15 +202,8 @@ export class Farm {
     return right(this);
   }
 
-  removeCrop(crop: string): Either<Error, Farm> {
-    const existingCrops = this.crops;
-    if (!existingCrops.includes(crop)) {
-      return left(new Error(`Crop '${crop}' doesn't exist in this farm.`));
-    }
-    existingCrops.splice(existingCrops.indexOf(crop), 1);
-    const cropsOrError = existingCrops.map((cropItem) => Crop.create(cropItem));
-    const validCrops = cropsOrError.map((item) => item.value as Crop);
-    this._crops = validCrops;
+  removeCrop(crop: string): Either<never, Farm> {
+    this._crops = this._crops.filter((cropItem) => cropItem.value !== crop);
     return right(this);
   }
 }

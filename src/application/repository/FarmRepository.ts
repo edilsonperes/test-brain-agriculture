@@ -6,4 +6,5 @@ export interface FarmRepository {
   findById(id: string): Promise<Farm | null>;
   list(): Promise<Farm[]>;
   update(id: string, updatedFarm: Farm): Promise<boolean>;
+  delete(id: string): Promise<Farm | null>;
 }

@@ -1,12 +1,9 @@
 import { Request, Response } from 'express';
 import { FarmRepository } from '../../../../application/repository/FarmRepository.js';
 import { Controller } from '../Controller.js';
-import {
-  FarmUpdate,
-  UpdateFarm,
-} from '../../../../application/usecases/farm/UpdateFarm.js';
+import { DeleteFarm } from '../../../../application/usecases/farm/DeleteFarm.js';
 
-export class UpdateFarmController implements Controller {
+export class DeleteFarmController implements Controller {
   constructor(private farmRepository: FarmRepository) {}
 
   handle = async (
@@ -14,22 +11,17 @@ export class UpdateFarmController implements Controller {
     response: Response,
   ): Promise<void> => {
     try {
-      if (!request.body) {
-        response.status(400).send('Missing request body.');
-        return;
-      }
-      const update = request.body as FarmUpdate;
-      if (update.crops && !Array.isArray(update.crops)) {
-        response.status(400).send('Crops must be an array of updates.');
-        return;
-      }
       const { id } = request.params;
-      const updateFarm = new UpdateFarm(this.farmRepository);
-      const farmDataOrError = await updateFarm.exec(id, update);
-      const farmData = farmDataOrError.value;
+      const deleteFarm = new DeleteFarm(this.farmRepository);
+      const farmDataOrError = await deleteFarm.exec(id);
       if (farmDataOrError.isLeft()) {
         const error = farmDataOrError.value;
         response.status(400).send(error.message);
+        return;
+      }
+      const farmData = farmDataOrError.value;
+      if (!farmData) {
+        response.sendStatus(404);
         return;
       }
       response.status(200).json(farmData);

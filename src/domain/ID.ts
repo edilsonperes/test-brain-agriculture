@@ -13,7 +13,7 @@ export class ID {
       return right(new ID(randomUUID()));
     }
     if (!ID._validate(id)) {
-      return left(new Error(`Invalid id. Received: ${id}.`));
+      return left(new Error(`Invalid id. Received: '${id}'.`));
     }
     return right(new ID(id));
   }

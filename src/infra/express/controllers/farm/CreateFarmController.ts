@@ -23,11 +23,9 @@ export class CreateFarmController implements Controller {
         return;
       }
       response.status(200).json({ id: farmIdOrError.value });
-      return;
     } catch (error: unknown) {
       console.error(error);
       response.sendStatus(500);
-      return;
     }
   };
 }

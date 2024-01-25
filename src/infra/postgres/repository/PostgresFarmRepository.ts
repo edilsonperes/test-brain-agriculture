@@ -32,4 +32,13 @@ export class PostgresFarmRepository implements FarmRepository {
     );
     return !!updateResult[0];
   }
+
+  async delete(id: string): Promise<Farm | null> {
+    const farmDB = await FarmModel.findByPk(id);
+    if (!farmDB) {
+      return null;
+    }
+    await farmDB.destroy();
+    return Farm.create(farmDB.dataValues).value as Farm;
+  }
 }

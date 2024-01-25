@@ -4,9 +4,14 @@ import { Either, left, right } from '../../../shared/Either.js';
 import { FarmRepository } from '../../repository/FarmRepository.js';
 import { UseCase } from '../UseCase.js';
 
-export interface FarmUpdate {
+export interface CropUpdate {
   crop: string;
   action: 'add' | 'remove';
+}
+
+export interface FarmUpdate {
+  name?: string;
+  crops?: CropUpdate[];
 }
 
 export class UpdateFarm implements UseCase {
@@ -14,7 +19,7 @@ export class UpdateFarm implements UseCase {
 
   async exec(
     id: string,
-    updates: FarmUpdate[],
+    update: FarmUpdate,
   ): Promise<Either<Error, FarmData | null>> {
     const idOrError = ID.create(id);
     if (idOrError.isLeft()) {
@@ -27,7 +32,15 @@ export class UpdateFarm implements UseCase {
       return right(null);
     }
 
-    for (const { action, crop } of updates) {
+    if (update.name) {
+      const farmOrError = farm.updateName(update.name);
+      if (farmOrError.isLeft()) {
+        const error = farmOrError.value;
+        return left(error);
+      }
+    }
+
+    for (const { action, crop } of update.crops ?? []) {
       const farmOrError =
         action === 'add' ? farm.addCrop(crop) : farm.removeCrop(crop);
       if (farmOrError.isLeft()) {

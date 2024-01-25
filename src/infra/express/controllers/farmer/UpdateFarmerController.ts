@@ -36,11 +36,9 @@ export class UpdateFarmerController implements Controller {
         return;
       }
       response.status(200).json(farmerData);
-      return;
     } catch (error: unknown) {
       console.error(error);
       response.sendStatus(500);
-      return;
     }
   };
 }

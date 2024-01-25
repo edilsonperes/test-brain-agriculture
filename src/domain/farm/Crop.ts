@@ -13,7 +13,7 @@ export class Crop {
 
   static create(crop: string): Either<Error, Crop> {
     if (!cropList.includes(crop)) {
-      return left(new Error(`Invalid crop. Received ${crop}.`));
+      return left(new Error(`Invalid crop. Received '${crop}'.`));
     }
     return right(new Crop(crop));
   }

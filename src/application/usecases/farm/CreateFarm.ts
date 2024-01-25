@@ -14,11 +14,6 @@ export class CreateFarm implements UseCase {
 
   async exec(props: FarmProps): Promise<Either<Error, string>> {
     const { arableArea, vegetationArea } = props;
-    if (!arableArea && !vegetationArea) {
-      return left(
-        new Error('Either arable area or vegetation area must be provided.'),
-      );
-    }
     const farmOrError = Farm.create({
       ...props,
       arableArea: arableArea ?? 0,

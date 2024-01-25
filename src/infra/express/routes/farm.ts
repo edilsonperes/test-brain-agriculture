@@ -4,6 +4,7 @@ import { RouterHander } from './RouterHandler.js';
 import { CreateFarmController } from '../controllers/farm/CreateFarmController.js';
 import { ListFarmsController } from '../controllers/farm/ListFarmsController.js';
 import { UpdateFarmController } from '../controllers/farm/UpdateFarmController.js';
+import { DeleteFarmController } from '../controllers/farm/DeleteFarmController.js';
 
 const handler = (router: Router) => {
   const farmRepository = new PostgresFarmRepository();
@@ -19,6 +20,12 @@ const handler = (router: Router) => {
   router.patch(
     '/:id',
     updateFarmController.handle as RequestHandler<{ id: string }>,
+  );
+
+  const deleteFarmController = new DeleteFarmController(farmRepository);
+  router.delete(
+    '/:id',
+    deleteFarmController.handle as RequestHandler<{ id: string }>,
   );
 };
 

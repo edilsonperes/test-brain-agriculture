@@ -37,15 +37,15 @@ export const FarmModel = db.define<FarmModelDefinition>('farm', {
     allowNull: false,
   },
   arableArea: {
-    type: DataTypes.DECIMAL(2),
+    type: DataTypes.FLOAT,
     allowNull: false,
   },
   vegetationArea: {
-    type: DataTypes.DECIMAL(2),
+    type: DataTypes.FLOAT,
     allowNull: false,
   },
   totalArea: {
-    type: DataTypes.DECIMAL(2),
+    type: DataTypes.FLOAT,
     allowNull: false,
   },
   crops: {

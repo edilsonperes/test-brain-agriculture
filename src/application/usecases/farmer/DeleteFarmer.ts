@@ -9,7 +9,6 @@ export class DeleteFarmer implements UseCase {
 
   async exec(id: string): Promise<Either<Error, FarmerData | null>> {
     const idOrError = ID.create(id);
-
     if (idOrError.isLeft()) {
       const error = idOrError.value;
       return left(error);
