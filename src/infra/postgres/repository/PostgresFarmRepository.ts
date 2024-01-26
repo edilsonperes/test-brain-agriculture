@@ -41,4 +41,11 @@ export class PostgresFarmRepository implements FarmRepository {
     await farmDB.destroy();
     return Farm.create(farmDB.dataValues).value as Farm;
   }
+
+  async findAll(limit?: number, offset?: number): Promise<Farm[]> {
+    const farmsDB = await FarmModel.findAll({ limit, offset });
+    return farmsDB.map(
+      (farmDB) => Farm.create(farmDB.dataValues).value as Farm,
+    );
+  }
 }

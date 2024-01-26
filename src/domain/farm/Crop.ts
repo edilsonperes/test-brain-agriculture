@@ -4,7 +4,7 @@ const cropList: Readonly<string[]> = [
   'soy',
   'corn',
   'cotton',
-  'coffe',
+  'coffee',
   'sugarcane',
 ];
 

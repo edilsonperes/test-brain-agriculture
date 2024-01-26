@@ -7,4 +7,5 @@ export interface FarmRepository {
   list(): Promise<Farm[]>;
   update(id: string, updatedFarm: Farm): Promise<boolean>;
   delete(id: string): Promise<Farm | null>;
+  findAll(limit?: number, offset?: number): Promise<Farm[]>;
 }
