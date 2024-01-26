@@ -5,6 +5,7 @@ import {
   FarmUpdate,
   UpdateFarm,
 } from '../../../../application/usecases/farm/UpdateFarm.js';
+import { HttpStatus } from '../HttpStatus.js';
 
 export class UpdateFarmController implements Controller {
   constructor(private farmRepository: FarmRepository) {}
@@ -15,12 +16,14 @@ export class UpdateFarmController implements Controller {
   ): Promise<void> => {
     try {
       if (!request.body) {
-        response.status(400).send('Missing request body.');
+        response.status(HttpStatus.BAD_REQUEST).send('Missing request body.');
         return;
       }
       const update = request.body as FarmUpdate;
       if (update.crops && !Array.isArray(update.crops)) {
-        response.status(400).send('Crops must be an array of updates.');
+        response
+          .status(HttpStatus.BAD_REQUEST)
+          .send('Crops must be an array of updates.');
         return;
       }
       const { id } = request.params;
@@ -29,13 +32,13 @@ export class UpdateFarmController implements Controller {
       const farmData = farmDataOrError.value;
       if (farmDataOrError.isLeft()) {
         const error = farmDataOrError.value;
-        response.status(400).send(error.message);
+        response.status(HttpStatus.BAD_REQUEST).send(error.message);
         return;
       }
-      response.status(200).json(farmData);
+      response.status(HttpStatus.OK).json(farmData);
     } catch (error: unknown) {
       console.error(error);
-      response.sendStatus(500);
+      response.sendStatus(HttpStatus.INTERNAL_SERVER_ERROR);
     }
   };
 }

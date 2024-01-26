@@ -5,6 +5,7 @@ import {
   FarmerProps,
 } from '../../../../application/usecases/farmer/CreateFarmer.js';
 import { Controller } from '../Controller.js';
+import { HttpStatus } from '../HttpStatus.js';
 
 export class CreateFarmerController implements Controller {
   constructor(private farmerRepository: FarmerRepository) {}
@@ -13,12 +14,14 @@ export class CreateFarmerController implements Controller {
     try {
       const { id, name, CPF, CNPJ } = request.body as Partial<FarmerProps>;
       if (!name) {
-        response.status(400).send('Missing required parameter: "name"');
+        response
+          .status(HttpStatus.BAD_REQUEST)
+          .send('Missing required parameter: "name"');
         return;
       }
       if (!CPF && !CNPJ) {
         response
-          .status(400)
+          .status(HttpStatus.BAD_REQUEST)
           .send('Farmer needs to be created with either CPF or CNPJ');
         return;
       }
@@ -27,13 +30,13 @@ export class CreateFarmerController implements Controller {
       const farmerIdOrError = await createFarmer.exec(farmerData);
       if (farmerIdOrError.isLeft()) {
         const error = farmerIdOrError.value;
-        response.status(400).send(error.message);
+        response.status(HttpStatus.BAD_REQUEST).send(error.message);
         return;
       }
-      response.status(201).json({ id: farmerIdOrError.value });
+      response.status(HttpStatus.CREATED).json({ id: farmerIdOrError.value });
     } catch (error: unknown) {
       console.error(error);
-      response.sendStatus(500);
+      response.sendStatus(HttpStatus.INTERNAL_SERVER_ERROR);
     }
   };
 }

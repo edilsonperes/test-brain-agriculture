@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import { FarmRepository } from '../../../../application/repository/FarmRepository.js';
 import { Controller } from '../Controller.js';
 import { DeleteFarm } from '../../../../application/usecases/farm/DeleteFarm.js';
+import { HttpStatus } from '../HttpStatus.js';
 
 export class DeleteFarmController implements Controller {
   constructor(private farmRepository: FarmRepository) {}
@@ -16,18 +17,18 @@ export class DeleteFarmController implements Controller {
       const farmDataOrError = await deleteFarm.exec(id);
       if (farmDataOrError.isLeft()) {
         const error = farmDataOrError.value;
-        response.status(400).send(error.message);
+        response.status(HttpStatus.BAD_REQUEST).send(error.message);
         return;
       }
       const farmData = farmDataOrError.value;
       if (!farmData) {
-        response.sendStatus(404);
+        response.sendStatus(HttpStatus.NOT_FOUND);
         return;
       }
-      response.status(200).json(farmData);
+      response.status(HttpStatus.OK).json(farmData);
     } catch (error: unknown) {
       console.error(error);
-      response.sendStatus(500);
+      response.sendStatus(HttpStatus.INTERNAL_SERVER_ERROR);
     }
   };
 }

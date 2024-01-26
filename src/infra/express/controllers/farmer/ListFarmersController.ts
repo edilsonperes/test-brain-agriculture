@@ -3,6 +3,7 @@ import { FarmerRepository } from '../../../../application/repository/FarmerRepos
 import { Controller } from '../Controller.js';
 import { ListFarmers } from '../../../../application/usecases/farmer/ListFarmers.js';
 import { FarmRepository } from '../../../../application/repository/FarmRepository.js';
+import { HttpStatus } from '../HttpStatus.js';
 
 export class ListFarmersController implements Controller {
   constructor(
@@ -23,14 +24,14 @@ export class ListFarmersController implements Controller {
       const farmerDataOrError = await listFarmers.exec(id);
       if (farmerDataOrError.isLeft()) {
         const error = farmerDataOrError.value;
-        response.status(400).send(error.message);
+        response.status(HttpStatus.BAD_REQUEST).send(error.message);
         return;
       }
       const farmerData = farmerDataOrError.value;
-      response.status(200).json(farmerData);
+      response.status(HttpStatus.OK).json(farmerData);
     } catch (error: unknown) {
       console.error(error);
-      response.sendStatus(500);
+      response.sendStatus(HttpStatus.INTERNAL_SERVER_ERROR);
     }
   };
 }

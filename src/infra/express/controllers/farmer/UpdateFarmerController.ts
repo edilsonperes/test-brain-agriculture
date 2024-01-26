@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import { FarmerRepository } from '../../../../application/repository/FarmerRepository.js';
 import { Controller } from '../Controller.js';
 import { UpdateFarmer } from '../../../../application/usecases/farmer/UpdateFarmer.js';
+import { HttpStatus } from '../HttpStatus.js';
 
 type UpdateFarmerRequestBody = {
   name?: string;
@@ -17,13 +18,15 @@ export class UpdateFarmerController implements Controller {
   ): Promise<void> => {
     try {
       if (!request.body) {
-        response.status(400).send('Missing request body.');
+        response.status(HttpStatus.BAD_REQUEST).send('Missing request body.');
         return;
       }
       const { id } = request.params;
       const { name, farm } = request.body as UpdateFarmerRequestBody;
       if (!name && farm === undefined) {
-        response.status(400).send('Missing update parameters.');
+        response
+          .status(HttpStatus.BAD_REQUEST)
+          .send('Missing update parameters.');
         return;
       }
 
@@ -32,13 +35,13 @@ export class UpdateFarmerController implements Controller {
       const farmerData = farmerDataOrError.value;
       if (farmerDataOrError.isLeft()) {
         const error = farmerDataOrError.value;
-        response.status(400).send(error.message);
+        response.status(HttpStatus.BAD_REQUEST).send(error.message);
         return;
       }
-      response.status(200).json(farmerData);
+      response.status(HttpStatus.OK).json(farmerData);
     } catch (error: unknown) {
       console.error(error);
-      response.sendStatus(500);
+      response.sendStatus(HttpStatus.INTERNAL_SERVER_ERROR);
     }
   };
 }

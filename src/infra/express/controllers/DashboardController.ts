@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import { Controller } from './Controller.js';
 import { FarmRepository } from '../../../application/repository/FarmRepository.js';
 import { GenerateDashboard } from '../../../application/usecases/GenerateDashboard.js';
+import { HttpStatus } from './HttpStatus.js';
 
 export class DashboardController implements Controller {
   constructor(private farmRepository: FarmRepository) {}
@@ -10,10 +11,10 @@ export class DashboardController implements Controller {
     try {
       const generateDashboard = new GenerateDashboard(this.farmRepository);
       const dashboardData = await generateDashboard.exec();
-      response.status(200).json(dashboardData);
+      response.status(HttpStatus.OK).json(dashboardData);
     } catch (error: unknown) {
       console.error(error);
-      response.sendStatus(500);
+      response.sendStatus(HttpStatus.INTERNAL_SERVER_ERROR);
     }
   };
 }
