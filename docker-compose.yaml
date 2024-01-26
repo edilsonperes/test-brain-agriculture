@@ -2,7 +2,10 @@ version: "3.8"
 
 services:
   db:
-    image: postgres:16.1
+    build:
+      context: .
+      dockerfile: Dockerfile.pg
+    container_name: postgres
     environment:
       - POSTGRES_DB=${POSTGRES_DB}
       - POSTGRES_USER=${POSTGRES_USER}
@@ -14,9 +17,10 @@ services:
       interval: 5s
       timeout: 5s
       retries: 5
-
-  api:
+  
+  app:
     build: .
+    container_name: app
     volumes:
       - ./src:/home/node/app/src
     ports:

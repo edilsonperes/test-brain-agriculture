@@ -10,8 +10,6 @@ Technical assessment for senior backend position.
 
 3. Create a `.env` file on the root folder according to `.env.example` file
 
-> **_NOTE:_** To start the application with mock data, use the default POSTGRES variables from `.env.example` file
-
 4. Run the following command
 ```docker compose up -d```
 
