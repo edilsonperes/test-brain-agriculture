@@ -22,7 +22,7 @@ export class CreateFarmController implements Controller {
         response.status(400).send(error.message);
         return;
       }
-      response.status(200).json({ id: farmIdOrError.value });
+      response.status(201).json({ id: farmIdOrError.value });
     } catch (error: unknown) {
       console.error(error);
       response.sendStatus(500);
